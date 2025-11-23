@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "inventory";
+option java_outer_classname = "InventoryServiceOuterClass";
+
+service InventoryService {
+  rpc CreateInventoryAccount (InventoryRequest) returns (InventoryResponse);
+}
+
+message InventoryRequest {
+  string skuCode = 1;
+  int32 quantity = 2;
+}
+
+message InventoryResponse {
+  string skuCode = 1;
+  int32 quantity = 2;
+}

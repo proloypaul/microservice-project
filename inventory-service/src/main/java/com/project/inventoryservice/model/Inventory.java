@@ -8,7 +8,7 @@ import lombok.Setter;
 import jakarta.persistence.*;
 
 @Entity
-@Table
+@Table(name="inventory")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -18,6 +18,7 @@ public class Inventory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "sku_code")
     private String skuCode;
     private Integer quantity;
 }
