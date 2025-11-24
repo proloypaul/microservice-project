@@ -26,11 +26,11 @@ public class ProductService {
     public ProductResponseDto createProduct(ProductRequestDto productRequestDto){
 
 
-        InventoryResponse inventoryResponse = inventoryServiceGrpcClient.createInventoryAccount("PROD#344",
-                3);
+        InventoryResponse inventoryResponse = inventoryServiceGrpcClient.createInventoryAccount(productRequestDto.getSkuCode(), productRequestDto.getQuantity());
 
 
         
+        log.info("Inventory grpc response {}", inventoryResponse);
 
         Product product = productRepository.save(ProductMapper.toModel(productRequestDto));
 

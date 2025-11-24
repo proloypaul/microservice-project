@@ -59,7 +59,13 @@ public class OrderService {
                     .bodyToMono(InventoryResponse[].class)
                     .block();
 
-            log.info("find out sku code {}", inventoryResponseArray);
+
+
+            log.info("Inventory API response: {}", Arrays.toString(inventoryResponseArray));
+
+            if (inventoryResponseArray == null || inventoryResponseArray.length == 0) {
+                throw new IllegalArgumentException("No inventory data returned for SKU, Product not found");
+            }
 
             boolean allProductsInStock = Arrays.stream(inventoryResponseArray)
                     .allMatch(InventoryResponse::isInStock);
@@ -68,13 +74,14 @@ public class OrderService {
                 orderRepository.save(order);
                 // publish Order Placed Event
 //                applicationEventPublisher.publishEvent(new OrderPlacedEvent(this, order.getOrderNumber()));
-                return "Order Placed";
+                return "Order Placed Successfully";
             } else {
                 throw new IllegalArgumentException("Product is not in stock, please try again later");
             }
         });
 
     }
+
 
     private OrderLineItems mapToDto(OrderLineItemsDto orderLineItemsDto) {
         OrderLineItems orderLineItems = new OrderLineItems();

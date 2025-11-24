@@ -20,10 +20,10 @@ public class InventoryServiceGrpcClient {
             LoggerFactory.getLogger(InventoryServiceGrpcClient.class);
 
     @Value("${inventory.service.address:localhost}")
-    private String serverAddress;   // <-- NOT FINAL
+    private String serverAddress;
 
     @Value("${inventory.service.grpc.port:9001}")
-    private int serverPort;         // <-- NOT FINAL
+    private int serverPort;
 
     private InventoryServiceGrpc.InventoryServiceBlockingStub blockingStub;
 
