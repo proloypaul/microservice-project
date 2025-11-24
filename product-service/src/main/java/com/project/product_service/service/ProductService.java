@@ -2,9 +2,11 @@ package com.project.product_service.service;
 
 import com.project.product_service.dto.ProductRequestDto;
 import com.project.product_service.dto.ProductResponseDto;
+import com.project.product_service.grpc.InventoryServiceGrpcClient;
 import com.project.product_service.mapper.ProductMapper;
 import com.project.product_service.model.Product;
 import com.project.product_service.repository.ProductRepository;
+import inventory.InventoryResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,10 +20,19 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final InventoryServiceGrpcClient inventoryServiceGrpcClient;
+
 
     public ProductResponseDto createProduct(ProductRequestDto productRequestDto){
 
-       Product product = productRepository.save(ProductMapper.toModel(productRequestDto));
+
+        InventoryResponse inventoryResponse = inventoryServiceGrpcClient.createInventoryAccount("PROD#344",
+                3);
+
+
+        
+
+        Product product = productRepository.save(ProductMapper.toModel(productRequestDto));
 
 
        log.info("Product {} is saved", product.getId());
