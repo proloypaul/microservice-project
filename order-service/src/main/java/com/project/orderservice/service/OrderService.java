@@ -6,11 +6,12 @@ import com.project.orderservice.dto.OrderRequest;
 import com.project.orderservice.model.Order;
 import com.project.orderservice.model.OrderLineItems;
 import com.project.orderservice.repository.OrderRepository;
+import io.github.resilience4j.retry.annotation.Retry;
 import io.micrometer.observation.Observation;
 import io.micrometer.observation.ObservationRegistry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationEventPublisher;
+//import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -30,6 +31,7 @@ public class OrderService {
     private final ObservationRegistry observationRegistry;
 //    private final ApplicationEventPublisher applicationEventPublisher;
 
+    @Retry(name = "inventory")
     public String placeOrder(OrderRequest orderRequest) {
         Order order = new Order();
         order.setOrderNumber(UUID.randomUUID().toString());
